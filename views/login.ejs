@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head') %>
+<body>
+    <%- include('./partials/navbar') %>
+    <form class="login-form">
+        <h2>Log in</h2>
+        <label for="email" >Email</label><br>
+        <input type="text" id="email" name="email" required><br>
+        <div class="errorE"></div><br>
+        <label for="password" >Password</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <div class="errorP"></div><br>
+        <button type="submit">Log in</button><br>
+    </form>
+    <%- include('./partials/footer') %>
+    
+</body>
+
+<script>
+    const form = document.querySelector('.login-form');
+    const emailError = document.querySelector('.errorE');
+    const passwordError = document.querySelector('.errorP');
+    
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    form.addEventListener('submit',async (event) => {
+        event.preventDefault();
+        const email = form.email.value;
+        const password = form.password.value;
+        try{
+            const res = await fetch('/login',{
+            method : 'POST',
+            body : JSON.stringify({email,password}),
+            headers: {'Content-Type' : 'application/json'}
+        })
+            const data = await res.json();
+            if(data.errors){
+                 emailError.textContent = data.errors.email;
+                 passwordError.textContent = data.errors.password;
+                 console.log('content updated');
+            }
+            if(data.user)
+            {
+               window.location.href = data.redirect;
+            }
+        }
+        catch(err){
+            //  console.log(err); 
+        }
+    })
+</script>
+
+</html>

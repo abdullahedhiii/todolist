@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('./partials/head') %>
+<body>
+    <%- include('./partials/navbar') %>
+    <form class="task-form" action="/list" method="POST">
+    <label for="title">Task title</label><br>
+    <input id="title" name="title" type="text"><br>
+    <label for="body">Task Description</label><br>
+    <textarea id="body" name="body"></textarea><br>
+    <label for="date">Due date</label><br>
+    <input id="date" type="date" name="date"><br>
+    <button type="submit" id="">add task</button>
+    </form>
+
+    <%- include('./partials/footer') %>
+</body>
+</html>

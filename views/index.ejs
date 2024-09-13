@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head') %>
+<body>
+    
+    <%- include('./partials/navbar') %>
+    <div class="listBody">
+        <% items.forEach(item => { %>
+            <div class="task">
+                <div class="main-line">
+                    <h2><%= item.title %></h2>
+                    <div class="controls">
+                        <a data-doc="<%= item._id %>" class="star">
+                            <i class="<%= item.starred ? 'fas fa-star' : 'far fa-star' %>"></i>
+                        </a>
+                        <a data-doc="<%= item._id %>" class="check">
+                            <i class="fas fa-check"></i>
+                        </a>
+                        <a data-doc="<%= item._id %>" class="delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>         
+                <p><%= item.body %></p>
+                <% const dueDate = new Date(item.date); %>
+                <% const day = dueDate.getDate(); %>
+                <% const month = dueDate.getMonth() + 1; %>
+                <% const year = dueDate.getFullYear(); %>       
+                <p class="due-date"><%= day %>/<%= month %>/<%= year %></p>
+            </div>
+        <% }) %>
+
+<div class="new-task">
+    <a href="/new-task"><i class="fas fa-plus"></i></a>
+</div>
+
+</div>
+
+<%- include('./partials/footer') %>
+</body>
+
+<script>
+   
+   const starItems = document.querySelectorAll('a.star');
+starItems.forEach(starItem => {
+    starItem.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const icon = starItem.querySelector('i');
+        const taskId = starItem.dataset.doc; // Ensure taskId is correct
+        const isStarred = icon.classList.contains('fas'); // Check if the current state is starred
+
+        console.log('Task ID:', taskId); // Debugging: Ensure this is correct
+        console.log('Starred (before toggle):', isStarred); // Debugging: Ensure this is correct
+
+        // Toggle the star icon (visual update)
+        if (isStarred) {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+        } else {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+        }
+        
+        const endpoint = `/list/${taskId}`;
+        const response =fetch(endpoint, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ starred: !isStarred }) // Toggle the starred state
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Task updated:', data); // Debugging: Ensure update was successful
+            // window.location.href = data.redirect;
+        })
+        .catch((err) => {
+            console.log('Error:', err); 
+        });
+    });
+});
+
+const completedItems = document.querySelectorAll('a.check');
+completedItems.forEach((completed) => {
+     completed.addEventListener('click', (event) => {
+         event.preventDefault(); // Prevent the default anchor behavior
+
+         const id = completed.dataset.doc;
+         const endpoint = `/list/completed/${id}`;
+         
+         fetch(endpoint, {
+             method: 'PATCH',
+             headers: {
+                 'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({ completed: true }) // Toggle the completed state
+         })
+         .then((response) => response.json())
+         .then((data) => {
+            window.location.href = data.redirect;  // Redirect after deletion
+        })
+         .catch((err) => {
+             console.log('Error:', err); 
+         });
+     });
+ });
+
+
+    // Delete (complete) functionality for each check element
+    const deleteItems = document.querySelectorAll('a.delete');
+    deleteItems.forEach(deleteItem => {
+        deleteItem.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const id = deleteItem.dataset.doc;  // Get the task's ID
+            const endpoint = `/list/${id}`;
+
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                window.location.href = data.redirect;  // Redirect after deletion
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        });
+    });
+</script>
+
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head') %>
+<body>
+    <%- include('./partials/navbar') %>
+    <h1 class="sub-heading">MISSED TASKS</h1>
+    <div class="listBody">
+        <% items.forEach(item => { %>
+            <div class="task">
+                <div class="main-line">
+                    <h2><%= item.title %></h2>
+                    <div class="controls">
+                        <a data-doc="<%= item._id %>" class="delete">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>         
+                <p><%= item.body %></p>
+                <% const dueDate = new Date(item.date); %>
+                <% const day = dueDate.getDate(); %>
+                <% const month = dueDate.getMonth() + 1; %>
+                <% const year = dueDate.getFullYear(); %>       
+                <p class="due-date"><%= day %>/<%= month %>/<%= year %></p>
+            </div>
+        <% }) %>
+    </div>
+    <%- include('./partials/footer') %>
+
+</body>
+</html>

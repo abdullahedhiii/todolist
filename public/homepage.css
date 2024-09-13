@@ -1,0 +1,156 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #082a3c, #feb47b);
+}
+
+.home-page {
+    text-align: center;
+    /* max-width: 600px; */
+    position: relative;
+    top:250px;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+    animation-delay: 0.5s;
+
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+.main-heading {
+    font-size: 3.5rem;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-bottom: 20px;
+    transition: transform 0.5s ease, color 0.5s ease, letter-spacing 0.5s ease;
+    animation: slideDown 1.5s ease-out forwards;
+}
+
+.main-heading:hover {
+    transform: scale(1.1);
+    color: #1c6375;
+    letter-spacing: 10px;
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.intro-text {
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 2s forwards;
+    animation-delay: 1s;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeInUp 2s forwards;
+    animation-delay: 1.5s;
+}
+
+.icons i {
+    font-size: 3rem;
+    color: white;
+    transition: transform 0.5s ease, color 0.5s ease;
+    animation: pulse 2s infinite alternate;
+}
+
+.icons i:hover {
+    transform: scale(1.3) rotate(15deg);
+    color: #a06362;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    opacity: 0;
+    animation: fadeIn 2.5s forwards;
+    animation-delay: 2s;
+}
+
+.btn {
+    padding: 14px 40px;
+    font-size: 1.1rem;
+    color: white;
+    text-decoration: none;
+    background-color: #333;
+    border-radius: 30px;
+    transition: background-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: width 0.5s ease, height 0.5s ease, top 0.5s ease, left 0.5s ease;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.btn:hover::before {
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+}
+
+.btn:hover {
+    background-color: #555;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.signup-btn {
+    background-color: #4b3b2c;
+}
+
+.login-btn {
+    background-color: #06111d;
+}
